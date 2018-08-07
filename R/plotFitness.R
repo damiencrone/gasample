@@ -1,0 +1,30 @@
+#' Function to plot the fitness of the final GA result, relative to the randomly
+#' generated suggestions.
+#' 
+#' @param stim_sample a list containing the final items and a GA object
+#' @param sample_size the number of items to sample
+#' @param distance_mat a population inter-item distance matrix
+#' @param fitness the fitness function passed to ga()
+#' @export
+plotFitness = function (stim_sample, sample_size, distance_mat, fitness = fitnessFunction) {
+  
+  suggestion_quality = apply(
+    X = stim_sample$ga_output@suggestions,
+    MARGIN = 1,
+    FUN = fitness,
+    sample_size = sample_size,
+    distance_mat = distance_mat
+  )
+  
+  final_fitness = stim_sample$ga_output@fitnessValue
+  
+  plot(
+    x = density(suggestion_quality, adjust = 1/2),
+    xlim = range(c(suggestion_quality, final_fitness)),
+    xlab = "Fitness",
+    main = "Comparison of initial random samples to final GA result"
+  )
+  
+  points(x = final_fitness, y = 0, pch = 19, col = "red")
+  
+}
