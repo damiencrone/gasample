@@ -3,5 +3,6 @@
 export(evaluateSubset)
 export(fitnessFunction)
 export(generateSuggestions)
+export(greedyMaxminSearch)
 export(plotFitness)
 export(sampleItems)
