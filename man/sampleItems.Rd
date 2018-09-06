@@ -8,7 +8,7 @@ distance matrix.}
 \usage{
 sampleItems(distance_mat, sample_size, fitness = fitnessFunction,
   lower_tri_funciton = mean, n_suggestions = 500, maxiter = 1e+06,
-  required_items = NULL, seed = NULL)
+  required_items = NULL, seed = NULL, suggest_maxmin = FALSE)
 }
 \arguments{
 \item{distance_mat}{a population inter-item distance matrix}
@@ -24,10 +24,14 @@ lower triangle of the sample distance matrix}
 
 \item{maxiter}{maximum number of iterations to run GA}
 
-\item{required_items}{character vector of any items required to be included
+\item{required_items}{character vector of any items required to be included 
 in the solution}
 
 \item{seed}{seed for GA}
+
+\item{suggest_maxmin}{logical denoting whether to include greedy search for
+the items that maximise minimum inter item distance in the initial
+suggestions}
 }
 \value{
 a list containing the final items and a GA object

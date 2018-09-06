@@ -9,14 +9,18 @@
 #'   lower triangle of the sample distance matrix
 #' @param n_suggestions number of suggestions to initialise the GA with
 #' @param maxiter maximum number of iterations to run GA
-#' @param required_items character vector of any items required to be included
+#' @param required_items character vector of any items required to be included 
 #'   in the solution
 #' @param seed seed for GA
+#' @param suggest_maxmin logical denoting whether to include greedy search for
+#'   the items that maximise minimum inter item distance in the initial
+#'   suggestions
 #' @return a list containing the final items and a GA object
 #' @export
 sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
                         lower_tri_funciton = mean, n_suggestions = 500,
-                        maxiter = 1e6, required_items = NULL, seed = NULL) {
+                        maxiter = 1e6, required_items = NULL, seed = NULL,
+                        suggest_maxmin = FALSE) {
   
   require(GA)
   
@@ -28,6 +32,21 @@ sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
     n_suggestions = n_suggestions,
     required_items = required_items
   )
+  
+  if (suggest_maxmin) {
+    
+    max_min = greedyMaxminSearch(
+      distance_mat = distance_mat,
+      sample_size = sample_size,
+      required_items = required_items
+    )
+    
+    suggestion_mat = rbind(
+      suggestion_mat,
+      items %in% max_min
+    )
+    
+  }
   
   ga_output = ga(
     

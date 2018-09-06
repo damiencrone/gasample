@@ -5,12 +5,15 @@
 \title{Function to sample items with a greedy search maximizing minimum inter-item
 distance.}
 \usage{
-greedyMaxminSearch(distance_mat, sample_size)
+greedyMaxminSearch(distance_mat, sample_size, required_items = NULL)
 }
 \arguments{
 \item{distance_mat}{a population inter-item distance matrix}
 
 \item{sample_size}{the number of items to sample}
+
+\item{required_items}{character vector of any items required to be included
+in the solution}
 }
 \value{
 a set of item names maximising minimum inter-item distance
