@@ -1,5 +1,5 @@
 #' Function to sample items with a genetic algorithm maximizing some measure of 
-#' fitness (e.g., everage inter-item dissimilarity) as measured by an inter-item
+#' fitness (e.g., average inter-item dissimilarity) as measured by an inter-item
 #' distance matrix.
 #' 
 #' @param distance_mat a population inter-item distance matrix
@@ -18,9 +18,9 @@
 #' @return a list containing the final items and a GA object
 #' @export
 sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
-                        lower_tri_funciton = mean, n_suggestions = 500,
-                        maxiter = 1e6, required_items = NULL, seed = NULL,
-                        suggest_maxmin = FALSE) {
+                        lower_tri_funciton = sumHeight, n_suggestions = 500,
+                        maxiter = 1e6, run = 200, required_items = NULL,
+                        seed = NULL, suggest_maxmin = FALSE) {
   
   require(GA)
   
@@ -53,9 +53,9 @@ sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
     type = "binary", 
     fitness = fitness,
     nBits = nrow(distance_mat),
-    maxiter = 1e6, # Maximum number of generations 
-    run = 200,     # Stop if the best-so-far fitness
-                   # hasn't improved for 'run' generations 
+    maxiter = maxiter, # Maximum number of generations 
+    run = run,         # Stop if the best-so-far fitness
+                       # hasn't improved for 'run' generations 
     popSize = nrow(suggestion_mat), 
     seed = seed,
     suggestions = suggestion_mat,
@@ -68,8 +68,10 @@ sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
     
   )
   
+  solution_ind = as.logical(ga_output@solution[1,])
+  
   stim_sample = list(
-    final = items[as.logical(ga_output@solution)],
+    final = items[solution_ind],
     ga_output = ga_output
   )
   

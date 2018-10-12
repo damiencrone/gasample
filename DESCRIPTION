@@ -3,7 +3,7 @@ Title: A Package For Sampling Stimuli For Psychological Research Using Genetic A
 Version: 0.0.0.9000
 Authors@R: person("Damien", "Crone", email = "damien.crone@gmail.com", role = c("aut", "cre"))
 Description: A package for sampling stimuli for psychological research using genetic algorithms, primarily operating on dissimilarity-based representations of a population of stimuli.
-Depends: R (>= 3.4.0), GA
+Depends: R (>= 3.4.0), GA, pracma
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

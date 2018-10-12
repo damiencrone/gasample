@@ -3,12 +3,13 @@
 \name{sampleItems}
 \alias{sampleItems}
 \title{Function to sample items with a genetic algorithm maximizing some measure of 
-fitness (e.g., everage inter-item dissimilarity) as measured by an inter-item
+fitness (e.g., average inter-item dissimilarity) as measured by an inter-item
 distance matrix.}
 \usage{
 sampleItems(distance_mat, sample_size, fitness = fitnessFunction,
-  lower_tri_funciton = mean, n_suggestions = 500, maxiter = 1e+06,
-  required_items = NULL, seed = NULL, suggest_maxmin = FALSE)
+  lower_tri_funciton = sumHeight, n_suggestions = 500,
+  maxiter = 1e+06, run = 200, required_items = NULL, seed = NULL,
+  suggest_maxmin = FALSE)
 }
 \arguments{
 \item{distance_mat}{a population inter-item distance matrix}
@@ -38,6 +39,6 @@ a list containing the final items and a GA object
 }
 \description{
 Function to sample items with a genetic algorithm maximizing some measure of 
-fitness (e.g., everage inter-item dissimilarity) as measured by an inter-item
+fitness (e.g., average inter-item dissimilarity) as measured by an inter-item
 distance matrix.
 }
