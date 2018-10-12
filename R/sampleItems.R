@@ -20,7 +20,7 @@
 sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
                         lower_tri_funciton = sumHeight, n_suggestions = 500,
                         maxiter = 1e6, run = 200, required_items = NULL,
-                        seed = NULL, suggest_maxmin = FALSE) {
+                        seed = NULL, suggest_maxmin = TRUE) {
   
   require(GA)
   
