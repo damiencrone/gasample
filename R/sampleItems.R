@@ -24,6 +24,10 @@ sampleItems = function (distance_mat, sample_size, fitness = fitnessFunction,
   
   require(GA)
   
+  if (class(distance_mat) == "dist") {
+    distance_mat = as.matrix(distance_mat)
+  }
+  
   items = rownames(distance_mat)
   
   suggestion_mat = generateSuggestions(
