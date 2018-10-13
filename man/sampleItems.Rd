@@ -9,7 +9,7 @@ distance matrix.}
 sampleItems(distance_mat, sample_size, fitness = fitnessFunction,
   lower_tri_funciton = sumHeight, n_suggestions = 500,
   maxiter = 1e+06, run = 200, required_items = NULL, seed = NULL,
-  suggest_maxmin = FALSE)
+  suggest_maxmin = TRUE)
 }
 \arguments{
 \item{distance_mat}{a population inter-item distance matrix}
