@@ -1,0 +1,63 @@
+---
+title: "Sampling SMID images with gasample"
+output: html_notebook
+author: "Damien Crone"
+---
+ 
+This document demonstrates how one might use the `gasample` package to select a diverse set of images from the [Socio-Moral Image Database](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0190954) (SMID).
+
+# How to use this document
+
+To make the document more readable (if you don't want to dig through code), in the top-right corner, you can click on _**Code**_, and select _**Hide All Code**_, and just limit the displayed content to any outputs and descriptive text.
+
+To run the code, you will need:
+
+1. The `gasample` library, available from GitHub (code to download it is included below and commented out)
+2. Normative data for the SMID
+
+```{r}
+
+# library(devtools)
+# install_github("damiencrone/gasample")
+library(gasample)
+
+dat = read.csv("~/Desktop/SMID_norms.csv", row.names = 1)
+
+# Reduce norms to variables of insterest
+dim_vec = paste0(c("valence", "arousal", "moral"), "_mean")
+dat = dat[,dim_vec]
+
+dist_mat = dist(dat)
+
+sample_size = 100
+
+```
+
+The code below will search for a set of `r sample_size` images that is maximally diverse in terms of its valence, arousal and morality ratings.
+
+For those interested in the technical details, this is achieved here by using a genetic algorithm with a fitness function that searches for a sample that maximises the sum of the length of dendrogram branches for a distance matrix representing Euclidean distances between all pairs of images in the sample. Some benefits of using the maximise-dendrogram-branch-length approach are that this method can (1) cover a large proportion of the multidimensional space that the items occupy, in a way that (2) can reduce collinearity between dimensions, (3) without unnecessarily restricting the sample's range on these dimensions. Moreover, this is achieved with a simple fitness function that maximises a single value (dendrogram branch length), rather than trying to simultaneously control individual variances and covariances (which may lead to a distorted sample and/or require a great deal of fine-tuning to achieve a similar result).
+
+```{r results=FALSE}
+
+# Sample items maximizing inter-item glove distance
+stim_sample = sampleItems(
+  distance_mat = dist_mat,
+  sample_size = sample_size
+)
+
+final_items = stim_sample$final
+
+```
+
+Univariate and bivariate distributions for the final sample are summarised below, with the sampled items shown in black, and all other items shown in gray. On all three dimension (and pairs thereof), the final sample (1) had a slightly larger standard deviation than the non-selected items, appearing to have a closer-to-uniform distribution, and (2) exhibited substantially reduced correlations between all three dimensions.
+
+```{r, fig.height=3, fig.width=4}
+
+sampleSplom(
+  items = final_items,
+  dat = dat,
+  label_vec = c("Valence", "Arousal", "Morality")
+)
+
+```
+
