@@ -39,17 +39,26 @@ plotSampleDensity = function (items = NULL, var_name = NULL, dat = NULL, SEL = N
     
   }
   
+  NON$mean = mean(NON$y)
+  SEL$mean = mean(SEL$y)
+  NON$sd = sd(NON$y)
+  SEL$sd = sd(SEL$y)
+  
+  no_non = length(NON$y) == 0 | all(is.na(NON$y) | is.null(NON$y))
+  if (no_non){
+    NON = NULL
+  }
+  
   # Compute densities
-  d = list(
-    selected = density(SEL$y, na.rm = na.rm),
-    nonselected = density(NON$y, na.rm = na.rm)
-  )
+  d = list()
+  d$selected = density(SEL$y, na.rm = na.rm)
+  if(!is.null(NON)) d$nonselected = density(NON$y, na.rm = na.rm)
   
   # Compute y axis parameters
   ylim = range(sapply(d, function(d){range(d$y)})) * 2.5
   yrange = ylim[2]-ylim[1]
-  NON$y_off = ylim[1] + yrange * 0.6
   SEL$y_off = ylim[1] + yrange * 0.9
+  if(!is.null(NON)) NON$y_off = ylim[1] + yrange * 0.6
   
   # Initialise empty plot
   plot(
@@ -58,44 +67,39 @@ plotSampleDensity = function (items = NULL, var_name = NULL, dat = NULL, SEL = N
   )
   
   # Draw density curves
-  drawDensityCurve(d = d$nonselected, col = NON$col)
+  if(!is.null(NON)) drawDensityCurve(d = d$nonselected, col = NON$col)
   drawDensityCurve(d = d$selected, col = SEL$col)
   
-  NON$mean = mean(NON$y)
-  SEL$mean = mean(SEL$y)
-  NON$sd = sd(NON$y)
-  SEL$sd = sd(SEL$y)
-  
-  # Means
+  # Add means, SDs, and descriptive text
   for (L in list(NON, SEL)) {
-    points(
-      x = L$mean,
-      y = L$y_off,
-      pch = 19,
-      col = L$col
-    )
-  }
-  
-  # Add descriptive text
-  for (L in list(NON, SEL)) {
-    text(
-      x = L$mean,
-      y = L$y_off,
-      labels = paste0("M = ", sprintf("%.2f", L$mean), "; SD = ", sprintf("%.2f", L$sd)),
-      col = L$col,
-      pos = 1,
-      cex = text_size
-    )
-  }
-  
-  # SD bars
-  for (L in list(NON, SEL)) {
-    lines(
-      x = L$mean + c(-L$sd, L$sd),
-      y = rep(L$y_off, 2),
-      col = L$col,
-      lty = 1
-    )
+    
+    if (!is.null(L)) {
+      
+      points(
+        x = L$mean,
+        y = L$y_off,
+        pch = 19,
+        col = L$col
+      )
+      
+      lines(
+        x = L$mean + c(-L$sd, L$sd),
+        y = rep(L$y_off, 2),
+        col = L$col,
+        lty = 1
+      )
+      
+      text(
+        x = L$mean,
+        y = L$y_off,
+        labels = paste0("M = ", sprintf("%.2f", L$mean), "; SD = ", sprintf("%.2f", L$sd)),
+        col = L$col,
+        pos = 1,
+        cex = text_size
+      )
+      
+    }
+    
   }
   
 }
