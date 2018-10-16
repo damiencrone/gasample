@@ -13,21 +13,6 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
                        nonselected_col = "gray", mar = c(4, 4, 0.5, 0.5),
                        nonselected_alpha = 0.1) {
   
-  fmt = function(x){sub("^(-?)0.", "\\1.", sprintf("%.2f", x))}
-  pstar = function(p){
-    if(p<.001){
-      s = "***"
-    }else if(p<.01){
-      s = "**"
-    } else if(p<.05){
-      s = "*"
-    } else if(p<.01){
-      s = "^"
-    } else{
-      s = ""
-    }
-  }
-  
   SEL = list(
     items = items,
     col = selected_col,
@@ -82,74 +67,14 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
       if (i == j) {
         # On diagonal
         
-        # Compute densities
-        d = list(
-          selected = density(SEL$y),
-          nonselected = density(NON$y)
+        plotSampleDensity(
+          SEL = SEL,
+          NON = NON,
+          dat = dat,
+          xlab = xlab,
+          ylab = ylab,
+          text_size = text_size
         )
-        
-        # Compute y axis parameters
-        ylim = range(sapply(d, function(d){range(d$y)})) * 2.5
-        yrange = ylim[2]-ylim[1]
-        NON$y_off = ylim[1] + yrange * 0.6
-        SEL$y_off = ylim[1] + yrange * 0.9
-        
-        # Initialise empty plot
-        plot(
-          x = 0, type = "n", xlab = xlab, ylab = ylab, main = "",
-          xlim = range(dat[,i]), ylim = ylim
-        )
-        
-        # Unselected density
-        lines(
-          x = d$nonselected$x,
-          y = d$nonselected$y,
-          col = NON$col
-        )
-        
-        # Selected density
-        lines(
-          x = d$selected$x,
-          y = d$selected$y,
-          col = SEL$col
-        )
-        
-        NON$mean = mean(NON$y)
-        SEL$mean = mean(SEL$y)
-        NON$sd = sd(NON$y)
-        SEL$sd = sd(SEL$y)
-        
-        # Means
-        for (L in list(NON, SEL)) {
-          points(
-            x = L$mean,
-            y = L$y_off,
-            pch = 19,
-            col = L$col
-          )
-        }
-        
-        # Descriptives
-        for (L in list(NON, SEL)) {
-          text(
-            x = L$mean,
-            y = L$y_off,
-            labels = paste0("M = ", sprintf("%.2f", L$mean), "; SD = ", sprintf("%.2f", L$sd)),
-            col = L$col,
-            pos = 1,
-            cex = text_size
-          )
-        }
-        
-        # SD bars
-        for (L in list(NON, SEL)) {
-          lines(
-            x = L$mean + c(-L$sd, L$sd),
-            y = rep(L$y_off, 2),
-            col = L$col,
-            lty = 1
-          )
-        }
         
       } else if (i > j) {
         # Below diagonal
@@ -176,8 +101,8 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
         
         # Initialise empty plot
         plot(
-          x = 0,type = "n",xlab = xlab,ylab = ylab,axes = FALSE,
-          xlim = c(0, 1),ylim = c(0, 1)
+          x = 0, type = "n", xlab = xlab, ylab = ylab, axes = FALSE,
+          xlim = c(0, 1), ylim = c(0, 1)
         )
         
         SEL$cor = cor.test(x = SEL$y, y = SEL$x)
@@ -187,9 +112,9 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
           x = 0.5,
           y = 0.5,
           labels = paste0(
-            "Selected r = ", fmt(SEL$cor$estimate), pstar(SEL$cor$p.value), "\n",
-            "Non-selected r = ", fmt(NON$cor$estimate), pstar(NON$cor$p.value), "\n",
-            "Difference = ", sprintf("%.2f", SEL$cor$estimate - NON$cor$estimate)
+            "Selected r = ", fmt(SEL$cor$estimate, lead = F, p = SEL$cor$p.value), "\n",
+            "Non-selected r = ", fmt(NON$cor$estimate, lead = F, p = NON$cor$p.value), "\n",
+            "Difference = ", fmt(SEL$cor$estimate - NON$cor$estimate)
           ),
           cex = text_size
         )
