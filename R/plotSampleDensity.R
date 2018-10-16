@@ -5,19 +5,21 @@
 #' @param var_name a string contianing the name of the variable to be described
 #' @param dat a matrix or dataframe containing describing each item in the 
 #'   population on the dimensions to be plotted
-#' @param SEL a list describing selected items containing the fields "items",
+#' @param SEL a list describing selected items containing the fields "items", 
 #'   "col" and "y"
-#' @param SEL a list describing non-selected items containing the fields
+#' @param SEL a list describing non-selected items containing the fields 
 #'   "items", "col" and "y"
 #' @param xlab string containing x axis label
 #' @param ylab string containing y axis label
 #' @param textsize cex value for descriptive text (default=1)
 #' @param selected_col colour for plotting selected items
 #' @param nonselected_col colour for plotting nonselected items
+#' @param na.rm logical denoting whether to remove missing values from density
+#'   calculation
 #' @export
 plotSampleDensity = function (items = NULL, var_name = NULL, dat = NULL, SEL = NULL, NON = NULL,
                               xlab = "", ylab = "", text_size = 1, selected_col = "black",
-                              nonselected_col = "gray") {
+                              nonselected_col = "gray", na.rm = TRUE) {
   
   group_lists_missing = is.null(SEL) & is.null(NON)
   
@@ -39,8 +41,8 @@ plotSampleDensity = function (items = NULL, var_name = NULL, dat = NULL, SEL = N
   
   # Compute densities
   d = list(
-    selected = density(SEL$y),
-    nonselected = density(NON$y)
+    selected = density(SEL$y, na.rm = na.rm),
+    nonselected = density(NON$y, na.rm = na.rm)
   )
   
   # Compute y axis parameters
