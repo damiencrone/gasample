@@ -7,7 +7,7 @@ across different samples.}
 \usage{
 plotSampleDensity(items = NULL, var_name = NULL, dat = NULL,
   SEL = NULL, NON = NULL, xlab = "", ylab = "", text_size = 1,
-  selected_col = "black", nonselected_col = "gray")
+  selected_col = "black", nonselected_col = "gray", na.rm = TRUE)
 }
 \arguments{
 \item{items}{a character vector of items used to index dat}
@@ -17,7 +17,7 @@ plotSampleDensity(items = NULL, var_name = NULL, dat = NULL,
 \item{dat}{a matrix or dataframe containing describing each item in the 
 population on the dimensions to be plotted}
 
-\item{SEL}{a list describing selected items containing the fields "items",
+\item{SEL}{a list describing selected items containing the fields "items", 
 "col" and "y"}
 
 \item{xlab}{string containing x axis label}
@@ -28,7 +28,10 @@ population on the dimensions to be plotted}
 
 \item{nonselected_col}{colour for plotting nonselected items}
 
-\item{SEL}{a list describing non-selected items containing the fields
+\item{na.rm}{logical denoting whether to remove missing values from density
+calculation}
+
+\item{SEL}{a list describing non-selected items containing the fields 
 "items", "col" and "y"}
 
 \item{textsize}{cex value for descriptive text (default=1)}
