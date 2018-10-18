@@ -7,7 +7,7 @@ population from which they were drawn.}
 \usage{
 sampleSplom(items, dat, label_vec = NULL, selected_col = "black",
   nonselected_col = "gray", mar = c(4, 4, 0.5, 0.5),
-  nonselected_alpha = 0.1)
+  nonselected_alpha = 0.1, xlim = NULL, ylim = NULL)
 }
 \arguments{
 \item{items}{a character vector of items used to index dat}
@@ -23,6 +23,10 @@ sampleSplom(items, dat, label_vec = NULL, selected_col = "black",
 \item{mar}{character vector containing margin parameters}
 
 \item{nonselected_alpha}{transparency for scatterplot points for nonselected items}
+
+\item{xlim}{an xlim vector or list of xlim vectors}
+
+\item{ylim}{a ylim vector or list of ylim vectors}
 }
 \description{
 Function to produce a scatterplot matrix comparing a sample of items to the

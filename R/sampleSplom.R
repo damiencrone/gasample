@@ -8,26 +8,19 @@
 #' @param nonselected_col colour for plotting nonselected items
 #' @param mar character vector containing margin parameters
 #' @param nonselected_alpha transparency for scatterplot points for nonselected items
+#' @param xlim an xlim vector or list of xlim vectors
+#' @param ylim a ylim vector or list of ylim vectors
 #' @export
 sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
                        nonselected_col = "gray", mar = c(4, 4, 0.5, 0.5),
-                       nonselected_alpha = 0.1) {
-  
-  SEL = list(
-    items = items,
-    col = selected_col,
-    point_cex = 1,
-    point_alpha = 1
-  )
-  NON = list(
-    items = rownames(dat)[!rownames(dat) %in% items],
-    col = nonselected_col,
-    point_cex = 1/2,
-    point_alpha = nonselected_alpha
-  )
+                       nonselected_alpha = 0.1, xlim = NULL, ylim = NULL) {
   
   ndim = ncol(dat)
   text_size = 3*1/ndim
+  xlim_provided = !is.null(xlim)
+  xlim_input = xlim
+  ylim_provided = !is.null(ylim)
+  ylim_input = ylim
   
   if (is.null(label_vec)) {
     label_vec = colnames(dat)
@@ -42,15 +35,46 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
   for (i in 1:ndim) {
     
     yname = label_vec[i]
-    SEL$y = dat[SEL$items, i]
-    NON$y = dat[NON$items, i]
+    
+    if (ylim_provided) {
+      
+      if (is.vector(ylim_input)) {
+        ylim = ylim_input
+      } else if (is.list(ylim_input)) {
+        ylim = ylim_input[[j]]
+      }
+      
+    } else {
+      
+      ylim = range(dat[,i])
+      
+    }
     
     # Loop through x variables
     for (j in 1:ndim) {
       
       xname = label_vec[j]
-      SEL$x = dat[SEL$items, j]
-      NON$x = dat[NON$items, j]
+      
+      if (xlim_provided) {
+        
+        if (is.vector(xlim_input)) {
+          xlim = xlim_input
+        } else if (is.list(xlim_input)) {
+          xlim = xlim_input[[j]]
+        }
+        
+      } else {
+        
+        xlim = range(dat[,j])
+        
+      }
+      
+      G = constructGroupList(
+        items = items,
+        population = dat,
+        include_nonsampled = TRUE,
+        var_name = colnames(dat)[c(i, j)]
+      )
       
       if (i == ndim) {
         xlab = xname
@@ -68,33 +92,24 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
         # On diagonal
         
         plotSampleDensity(
-          SEL = SEL,
-          NON = NON,
+          G = G,
           dat = dat,
           xlab = xlab,
           ylab = ylab,
-          text_size = text_size
+          text_size = text_size,
+          xlim = xlim
         )
         
       } else if (i > j) {
         # Below diagonal
         
-        # Initialise empty plot
-        plot(
-          x = 0, type = "n", xlab = xlab, ylab = ylab,
-          xlim = range(dat[,j]), ylim = range(dat[,i])
+        plotSampleScatter(
+          G = G,
+          xlim = xlim,
+          ylim = ylim,
+          xlab = xlab,
+          ylab = ylab,
         )
-        
-        # Plot points
-        for (L in list(NON, SEL)) {
-          points(
-            x = L$x,
-            y = L$y,
-            col = scales::alpha(L$col, L$point_alpha),
-            pch = 19,
-            cex = L$point_cex
-          )
-        }
         
       } else if (i < j) {
         # Above diagonal
@@ -105,19 +120,20 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
           xlim = c(0, 1), ylim = c(0, 1)
         )
         
-        SEL$cor = cor.test(x = SEL$y, y = SEL$x)
-        NON$cor = cor.test(x = NON$y, y = NON$x)
-        
-        text(
-          x = 0.5,
-          y = 0.5,
-          labels = paste0(
-            "Selected r = ", fmt(SEL$cor$estimate, lead = F, p = SEL$cor$p.value), "\n",
-            "Non-selected r = ", fmt(NON$cor$estimate, lead = F, p = NON$cor$p.value), "\n",
-            "Difference = ", fmt(SEL$cor$estimate - NON$cor$estimate)
-          ),
-          cex = text_size
-        )
+        if (length(G) == 2) {
+          
+          text(
+            x = 0.5,
+            y = 0.5,
+            labels = paste0(
+              "Selected r = ", fmt(G$SEL$cor$estimate, lead = F, p = G$SEL$cor$p.value), "\n",
+              "Non-selected r = ", fmt(G$NON$cor$estimate, lead = F, p = G$NON$cor$p.value), "\n",
+              "Difference = ", fmt(G$SEL$cor$estimate - G$NON$cor$estimate)
+            ),
+            cex = text_size
+          )
+          
+        }
         
       }
       

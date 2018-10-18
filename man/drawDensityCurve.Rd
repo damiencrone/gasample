@@ -4,7 +4,7 @@
 \alias{drawDensityCurve}
 \title{Internal function to draw density curve.}
 \usage{
-drawDensityCurve(d, col)
+drawDensityCurve(d = NULL, col = "black")
 }
 \arguments{
 \item{d}{a density object}

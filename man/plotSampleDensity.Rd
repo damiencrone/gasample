@@ -6,8 +6,9 @@
 across different samples.}
 \usage{
 plotSampleDensity(items = NULL, var_name = NULL, dat = NULL,
-  SEL = NULL, NON = NULL, xlab = "", ylab = "", text_size = 1,
-  selected_col = "black", nonselected_col = "gray", na.rm = TRUE)
+  G = NULL, xlab = "", ylab = "", text_size = 1,
+  selected_col = "black", nonselected_col = "gray", na.rm = TRUE,
+  include_nonsampled = TRUE, xlim = NULL)
 }
 \arguments{
 \item{items}{a character vector of items used to index dat}
@@ -17,8 +18,7 @@ plotSampleDensity(items = NULL, var_name = NULL, dat = NULL,
 \item{dat}{a matrix or dataframe containing describing each item in the 
 population on the dimensions to be plotted}
 
-\item{SEL}{a list describing selected items containing the fields "items", 
-"col" and "y"}
+\item{G}{a list describing each group of items}
 
 \item{xlab}{string containing x axis label}
 
@@ -31,8 +31,9 @@ population on the dimensions to be plotted}
 \item{na.rm}{logical denoting whether to remove missing values from density
 calculation}
 
-\item{SEL}{a list describing non-selected items containing the fields 
-"items", "col" and "y"}
+\item{include_nonsampled}{logical denoting whether to plot nonsampled items}
+
+\item{xlim}{an xlim vector}
 
 \item{textsize}{cex value for descriptive text (default=1)}
 }
