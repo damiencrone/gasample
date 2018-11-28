@@ -35,7 +35,7 @@ sample_size = 100
 
 The code below will search for a set of `r sample_size` images that is maximally diverse in terms of its valence, arousal and morality ratings.
 
-For those interested in the technical details, this is achieved here by using a genetic algorithm with a fitness function that searches for a sample that maximises the sum of the length of dendrogram branches for a distance matrix representing Euclidean distances between all pairs of images in the sample. Some benefits of using the maximise-dendrogram-branch-length approach are that this method can (1) cover a large proportion of the multidimensional space that the items occupy, in a way that (2) can reduce collinearity between dimensions, (3) without unnecessarily restricting the sample's range on these dimensions. Moreover, this is achieved with a simple fitness function that maximises a single value (dendrogram branch length), rather than trying to simultaneously control individual variances and covariances (which may lead to a distorted sample and/or require a great deal of fine-tuning to achieve a similar result).
+For those interested in the technical details, this is achieved here by using a genetic algorithm with a fitness function that searches for a sample that maximises the sum of the length of dendrogram branches for a distance matrix representing Euclidean distances between all pairs of images in the sample. The use of dendrogram branch length is inspired by measures of functional diversity in the field of ecology (see [Petchey & Gaston, 2002](http://doi.wiley.com/10.1046/j.1461-0248.2002.00339.x)). Some benefits of using the maximise-dendrogram-branch-length approach are that this method can (1) cover a large proportion of the multidimensional space that the items occupy, in a way that (2) can reduce collinearity between dimensions, (3) without unnecessarily restricting the sample's range on these dimensions. Moreover, this is achieved with a simple fitness function that maximises a single value (dendrogram branch length), rather than trying to simultaneously control individual variances and covariances (which may lead to a distorted sample and/or require a great deal of fine-tuning to achieve a similar result).
 
 ```{r results=FALSE}
 
@@ -51,12 +51,14 @@ final_items = stim_sample$final
 
 Univariate and bivariate distributions for the final sample are summarised below, with the sampled items shown in black, and all other items shown in gray. On all three dimension (and pairs thereof), the final sample (1) had a slightly larger standard deviation than the non-selected items, appearing to have a closer-to-uniform distribution, and (2) exhibited substantially reduced correlations between all three dimensions.
 
-```{r, fig.height=3, fig.width=4}
+```{r, fig.height=5, fig.width=7}
 
 sampleSplom(
   items = final_items,
   dat = dat,
-  label_vec = c("Valence", "Arousal", "Morality")
+  label_vec = c("Valence", "Arousal", "Morality"),
+  xlim = c(1, 5),
+  ylim = c(1, 5)
 )
 
 ```
