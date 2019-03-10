@@ -6,8 +6,9 @@
 population from which they were drawn.}
 \usage{
 sampleSplom(items, dat, label_vec = NULL, selected_col = "black",
-  nonselected_col = "gray", mar = c(4, 4, 0.5, 0.5),
-  nonselected_alpha = 0.1, xlim = NULL, ylim = NULL)
+  nonselected_col = "gray", mar = c(3, 3, 0.5, 0.5), mgp = c(2, 0.5,
+  0), nonselected_alpha = 0.1, xlim = NULL, ylim = NULL,
+  text_size = NULL)
 }
 \arguments{
 \item{items}{a character vector of items used to index dat}
@@ -20,7 +21,9 @@ sampleSplom(items, dat, label_vec = NULL, selected_col = "black",
 
 \item{nonselected_col}{colour for plotting nonselected items}
 
-\item{mar}{character vector containing margin parameters}
+\item{mar}{vector containing margin parameters passed to par()}
+
+\item{mgp}{vector containing axis label locations passed to par()}
 
 \item{nonselected_alpha}{transparency for scatterplot points for nonselected items}
 

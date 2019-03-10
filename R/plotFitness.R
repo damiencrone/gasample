@@ -5,15 +5,19 @@
 #' @param sample_size the number of items to sample
 #' @param distance_mat a population inter-item distance matrix
 #' @param fitness the fitness function passed to ga()
+#' @param lower_tri_funciton the specific function to assess fitness of the 
+#'   lower triangle of the sample distance matrix
 #' @export
-plotFitness = function (stim_sample, sample_size, distance_mat, fitness = fitnessFunction) {
+plotFitness = function (stim_sample, sample_size, distance_mat, fitness = fitnessFunction,
+                        lower_tri_function = sumHeight) {
   
   suggestion_quality = apply(
     X = stim_sample$ga_output@suggestions,
     MARGIN = 1,
     FUN = fitness,
     sample_size = sample_size,
-    distance_mat = distance_mat
+    distance_mat = distance_mat,
+    lower_tri_function = lower_tri_function
   )
   
   final_fitness = stim_sample$ga_output@fitnessValue

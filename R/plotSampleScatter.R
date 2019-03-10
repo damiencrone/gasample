@@ -10,9 +10,12 @@
 #' @param ylab string containing y axis label
 #' @param xlim an xlim vector
 #' @param ylim an ylim vector
+#' @param nonselected_col colour for plotting nonselected items
+#' @param nonselected_alpha transparency for scatterplot points for nonselected items
 #' @export
 plotSampleScatter = function (items = NULL, var_name = NULL, dat = NULL, G = NULL,
-                              xlim = NULL, ylim = NULL, xlab = "", ylab = "") {
+                              xlim = NULL, ylim = NULL, xlab = "", ylab = "",
+                              nonselected_col = "gray", nonselected_alpha = 0.1) {
   
   group_lists_missing = is.null(G)
   dat_available = !is.null(dat) & !is.null(var_name)
@@ -25,6 +28,7 @@ plotSampleScatter = function (items = NULL, var_name = NULL, dat = NULL, G = NUL
       population = dat,
       include_nonsampled = include_nonsampled,
       nonselected_col = nonselected_col,
+      nonselected_alpha = nonselected_alpha,
       var_name = var_name
     )
     

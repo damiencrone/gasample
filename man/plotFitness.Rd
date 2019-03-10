@@ -6,7 +6,7 @@
 generated suggestions.}
 \usage{
 plotFitness(stim_sample, sample_size, distance_mat,
-  fitness = fitnessFunction)
+  fitness = fitnessFunction, lower_tri_function = sumHeight)
 }
 \arguments{
 \item{stim_sample}{a list containing the final items and a GA object}
@@ -16,6 +16,9 @@ plotFitness(stim_sample, sample_size, distance_mat,
 \item{distance_mat}{a population inter-item distance matrix}
 
 \item{fitness}{the fitness function passed to ga()}
+
+\item{lower_tri_funciton}{the specific function to assess fitness of the 
+lower triangle of the sample distance matrix}
 }
 \description{
 Function to plot the fitness of the final GA result, relative to the randomly

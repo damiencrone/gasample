@@ -6,21 +6,26 @@
 #' @param label_vec optional character vector of variable labels
 #' @param selected_col colour for plotting selected items
 #' @param nonselected_col colour for plotting nonselected items
-#' @param mar character vector containing margin parameters
+#' @param mar vector containing margin parameters passed to par()
+#' @param mgp vector containing axis label locations passed to par()
 #' @param nonselected_alpha transparency for scatterplot points for nonselected items
 #' @param xlim an xlim vector or list of xlim vectors
 #' @param ylim a ylim vector or list of ylim vectors
 #' @export
 sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
-                       nonselected_col = "gray", mar = c(4, 4, 0.5, 0.5),
-                       nonselected_alpha = 0.1, xlim = NULL, ylim = NULL) {
+                       nonselected_col = "gray", mar = c(3, 3, 0.5, 0.5),
+                       mgp = c(2, 0.5, 0), nonselected_alpha = 0.1, xlim = NULL,
+                       ylim = NULL, text_size = NULL) {
   
   ndim = ncol(dat)
-  text_size = 3*1/ndim
   xlim_provided = !is.null(xlim)
   xlim_input = xlim
   ylim_provided = !is.null(ylim)
   ylim_input = ylim
+  
+  if (is.null(text_size)) {
+    text_size = 3*1/ndim
+  }
   
   if (is.null(label_vec)) {
     label_vec = colnames(dat)
@@ -28,7 +33,8 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
   
   par(
     mfrow = c(ndim, ndim),
-    mar = mar
+    mar = mar,
+    mgp = mgp
   )
   
   # Loop through y variables
@@ -73,7 +79,9 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
         items = items,
         population = dat,
         include_nonsampled = TRUE,
-        var_name = colnames(dat)[c(i, j)]
+        var_name = colnames(dat)[c(i, j)],
+        nonselected_col = nonselected_col,
+        nonselected_alpha = nonselected_alpha
       )
       
       if (i == ndim) {
