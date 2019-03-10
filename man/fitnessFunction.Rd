@@ -6,8 +6,8 @@
 fitness (e.g., everage inter-item dissimilarity) as measured by an inter-item
 distance matrix.}
 \usage{
-fitnessFunction(x, sample_size, distance_mat, lower_tri_function = mean,
-  required_items = NULL)
+fitnessFunction(x, sample_size, distance_mat,
+  lower_tri_function = sumHeight, required_items = NULL)
 }
 \arguments{
 \item{x}{a binary vector of sampled items}

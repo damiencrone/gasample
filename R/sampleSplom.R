@@ -80,6 +80,7 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
         population = dat,
         include_nonsampled = TRUE,
         var_name = colnames(dat)[c(i, j)],
+        col = selected_col,
         nonselected_col = nonselected_col,
         nonselected_alpha = nonselected_alpha
       )

@@ -31,6 +31,7 @@ plotSampleDensity = function (items = NULL, var_name = NULL, dat = NULL, G = NUL
       items = items,
       population = dat,
       include_nonsampled = include_nonsampled,
+      col = selected_col,
       nonselected_col = nonselected_col,
       var_name = var_name
     )
