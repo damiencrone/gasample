@@ -8,7 +8,7 @@ different samples.}
 plotSampleScatter(items = NULL, var_name = NULL, dat = NULL,
   G = NULL, xlim = NULL, ylim = NULL, xlab = "", ylab = "",
   selected_col = "black", nonselected_col = "gray",
-  nonselected_alpha = 0.1)
+  nonselected_alpha = 0.1, include_nonsampled = TRUE)
 }
 \arguments{
 \item{items}{a character vector of items used to index dat}
@@ -33,6 +33,8 @@ population on the dimensions to be plotted}
 \item{nonselected_col}{colour for plotting nonselected items}
 
 \item{nonselected_alpha}{transparency for scatterplot points for nonselected items}
+
+\item{include_nonsampled}{logical denoting whether to plot nonsampled items}
 }
 \description{
 Function to produce scatterplots depicting bivariate distributions across

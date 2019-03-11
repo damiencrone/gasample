@@ -11,11 +11,12 @@
 #' @param nonselected_alpha transparency for scatterplot points for nonselected items
 #' @param xlim an xlim vector or list of xlim vectors
 #' @param ylim a ylim vector or list of ylim vectors
+#' @param include_nonsampled logical denoting whether to plot nonsampled items
 #' @export
 sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
                        nonselected_col = "gray", mar = c(3, 3, 0.5, 0.5),
                        mgp = c(2, 0.5, 0), nonselected_alpha = 0.1, xlim = NULL,
-                       ylim = NULL, text_size = NULL) {
+                       ylim = NULL, text_size = NULL, include_nonsampled = TRUE) {
   
   ndim = ncol(dat)
   xlim_provided = !is.null(xlim)
@@ -78,7 +79,7 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
       G = constructGroupList(
         items = items,
         population = dat,
-        include_nonsampled = TRUE,
+        include_nonsampled = include_nonsampled,
         var_name = colnames(dat)[c(i, j)],
         col = selected_col,
         nonselected_col = nonselected_col,

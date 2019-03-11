@@ -13,11 +13,12 @@
 #' @param selected_col colour for plotting selected items
 #' @param nonselected_col colour for plotting nonselected items
 #' @param nonselected_alpha transparency for scatterplot points for nonselected items
+#' @param include_nonsampled logical denoting whether to plot nonsampled items
 #' @export
 plotSampleScatter = function (items = NULL, var_name = NULL, dat = NULL, G = NULL,
                               xlim = NULL, ylim = NULL, xlab = "", ylab = "",
                               selected_col = "black", nonselected_col = "gray",
-                              nonselected_alpha = 0.1) {
+                              nonselected_alpha = 0.1, include_nonsampled = TRUE) {
   
   group_lists_missing = is.null(G)
   dat_available = !is.null(dat) & !is.null(var_name)

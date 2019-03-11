@@ -8,7 +8,7 @@ population from which they were drawn.}
 sampleSplom(items, dat, label_vec = NULL, selected_col = "black",
   nonselected_col = "gray", mar = c(3, 3, 0.5, 0.5), mgp = c(2, 0.5,
   0), nonselected_alpha = 0.1, xlim = NULL, ylim = NULL,
-  text_size = NULL)
+  text_size = NULL, include_nonsampled = TRUE)
 }
 \arguments{
 \item{items}{a character vector of items used to index dat}
@@ -30,6 +30,8 @@ sampleSplom(items, dat, label_vec = NULL, selected_col = "black",
 \item{xlim}{an xlim vector or list of xlim vectors}
 
 \item{ylim}{a ylim vector or list of ylim vectors}
+
+\item{include_nonsampled}{logical denoting whether to plot nonsampled items}
 }
 \description{
 Function to produce a scatterplot matrix comparing a sample of items to the
