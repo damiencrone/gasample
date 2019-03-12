@@ -136,7 +136,8 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
             x = 0.5,
             y = 0.5,
             labels = paste0(
-              "r = ", fmt(G$SEL$cor$estimate, lead = F, p = G$SEL$cor$p.value)
+              "r = ", fmt(G$SEL$cor$estimate, lead = F, p = G$SEL$cor$p.value), "\n",
+              "[", fmt(G$SEL$cor$conf.int[1], lead = F), " - ", fmt(G$SEL$cor$conf.int[2], lead = F), "]"
             ),
             cex = text_size*2
           )
