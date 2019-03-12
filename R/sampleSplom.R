@@ -130,7 +130,18 @@ sampleSplom = function(items, dat, label_vec = NULL, selected_col = "black",
           xlim = c(0, 1), ylim = c(0, 1)
         )
         
-        if (length(G) == 2) {
+        if (length(G) == 1) {
+          
+          text(
+            x = 0.5,
+            y = 0.5,
+            labels = paste0(
+              "r = ", fmt(G$SEL$cor$estimate, lead = F, p = G$SEL$cor$p.value)
+            ),
+            cex = text_size*2
+          )
+          
+        } else if (length(G) == 2) {
           
           text(
             x = 0.5,
